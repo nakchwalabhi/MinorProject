@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import *
 import os, cv2
+import threading
 import shutil
 import csv
 import numpy as np
@@ -238,17 +239,14 @@ def TakeImageUI():
     def take_image():
         l1 = txt1.get()
         l2 = txt2.get()
-        takeImage.TakeImage(
-            l1,
-            l2,
-            haarcasecade_path,
-            trainimage_path,
-            message,
-            err_screen,
-            text_to_speech,
-        )
         txt1.delete(0, "end")
         txt2.delete(0, "end")
+        t = threading.Thread(
+            target=takeImage.TakeImage,
+            args=(l1, l2, haarcasecade_path, trainimage_path, message, err_screen, text_to_speech),
+            daemon=True,
+        )
+        t.start()
 
     # take Image button
     # image
@@ -267,13 +265,12 @@ def TakeImageUI():
     takeImg.place(x=130, y=350)
 
     def train_image():
-        trainImage.TrainImage(
-            haarcasecade_path,
-            trainimage_path,
-            trainimagelabel_path,
-            message,
-            text_to_speech,
+        t = threading.Thread(
+            target=trainImage.TrainImage,
+            args=(haarcasecade_path, trainimage_path, trainimagelabel_path, message, text_to_speech),
+            daemon=True,
         )
+        t.start()
 
     # train Image function call
     trainImg = tk.Button(

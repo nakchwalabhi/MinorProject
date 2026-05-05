@@ -30,6 +30,8 @@ def TakeImage(l1, l2, haarcasecade_path, trainimage_path, message, err_screen,te
             os.mkdir(path)
             while True:
                 ret, img = cam.read()
+                if not ret:
+                    continue
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 faces = detector.detectMultiScale(gray, 1.3, 5)
                 for (x, y, w, h) in faces:
@@ -39,7 +41,7 @@ def TakeImage(l1, l2, haarcasecade_path, trainimage_path, message, err_screen,te
                         os.path.join(path, Name + "_" + Enrollment + "_" + str(sampleNum) + ".jpg"),
                         gray[y : y + h, x : x + w],
                     )
-                    cv2.imshow("Frame", img)
+                cv2.imshow("Frame", img)
                 if cv2.waitKey(1) & 0xFF == ord("q"):
                     break
                 elif sampleNum > 50:
