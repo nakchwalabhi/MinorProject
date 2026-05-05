@@ -239,14 +239,73 @@ def TakeImageUI():
     def take_image():
         l1 = txt1.get()
         l2 = txt2.get()
+        if not l1 and not l2:
+            text_to_speech("Please Enter the your Enrollment Number and Name.")
+            return
+        if not l1:
+            text_to_speech("Please Enter the your Enrollment Number.")
+            return
+        if not l2:
+            text_to_speech("Please Enter the your Name.")
+            return
+
+        directory = l1 + "_" + l2
+        img_path = os.path.join(trainimage_path, directory)
+        try:
+            os.mkdir(img_path)
+        except FileExistsError:
+            text_to_speech("Student Data already exists")
+            return
+
         txt1.delete(0, "end")
         txt2.delete(0, "end")
-        t = threading.Thread(
-            target=takeImage.TakeImage,
-            args=(l1, l2, haarcasecade_path, trainimage_path, message, err_screen, text_to_speech),
-            daemon=True,
-        )
-        t.start()
+
+        cam = cv2.VideoCapture(0)
+        detector = cv2.CascadeClassifier(haarcasecade_path)
+        sample_num = [0]
+
+        cam_win = tk.Toplevel(ImageUI)
+        cam_win.title("Take Image  (close window to stop)")
+        cam_win.resizable(False, False)
+        cam_label = tk.Label(cam_win)
+        cam_label.pack()
+
+        def finish():
+            cam.release()
+            if cam_win.winfo_exists():
+                cam_win.destroy()
+            if sample_num[0] > 0:
+                row = [l1, l2]
+                with open("StudentDetails/studentdetails.csv", "a+") as csvFile:
+                    csv.writer(csvFile, delimiter=",").writerow(row)
+                res = "Images Saved for ER No:" + l1 + "  Name:" + l2
+                message.configure(text=res)
+                text_to_speech(res)
+
+        def capture_frame():
+            ret, img = cam.read()
+            if ret:
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                faces = detector.detectMultiScale(gray, 1.3, 5)
+                for (x, y, w, h) in faces:
+                    cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+                    sample_num[0] += 1
+                    cv2.imwrite(
+                        os.path.join(img_path, l2 + "_" + l1 + "_" + str(sample_num[0]) + ".jpg"),
+                        gray[y : y + h, x : x + w],
+                    )
+                img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                img_tk = ImageTk.PhotoImage(Image.fromarray(img_rgb))
+                cam_label.configure(image=img_tk)
+                cam_label.image = img_tk  # prevent garbage collection
+
+            if sample_num[0] < 50 and cam_win.winfo_exists():
+                cam_win.after(30, capture_frame)
+            else:
+                finish()
+
+        cam_win.protocol("WM_DELETE_WINDOW", finish)
+        capture_frame()
 
     # take Image button
     # image

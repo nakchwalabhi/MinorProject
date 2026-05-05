@@ -41,13 +41,9 @@ def TakeImage(l1, l2, haarcasecade_path, trainimage_path, message, err_screen,te
                         os.path.join(path, Name + "_" + Enrollment + "_" + str(sampleNum) + ".jpg"),
                         gray[y : y + h, x : x + w],
                     )
-                cv2.imshow("Frame", img)
-                if cv2.waitKey(1) & 0xFF == ord("q"):
-                    break
-                elif sampleNum > 50:
+                if sampleNum > 50:
                     break
             cam.release()
-            cv2.destroyAllWindows()
             row = [Enrollment, Name]
             with open(
                 "StudentDetails/studentdetails.csv",
