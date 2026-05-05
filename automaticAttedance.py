@@ -77,7 +77,7 @@ def subjectChoose(text_to_speech):
                             )
                             aa = df.loc[df["Enrollment"] == Id]["Name"].values
                             global tt
-                            tt = str(Id) + "-" + aa
+                            tt = str(Id) + "-" + (aa[0] if aa.size > 0 else "Unknown")
                             # En='1604501160'+str(Id)
                             attendance.loc[len(attendance)] = [
                                 Id,
@@ -106,7 +106,6 @@ def subjectChoose(text_to_speech):
                         break
 
                 ts = time.time()
-                print(aa)
                 # attendance["date"] = date
                 # attendance["Attendance"] = "P"
                 attendance[date] = 1
@@ -157,7 +156,7 @@ def subjectChoose(text_to_speech):
                 root = tkinter.Tk()
                 root.title("Attendance of " + Subject)
                 root.configure(background="black")
-                cs = os.path.join(path, fileName)
+                cs = fileName
                 print(cs)
                 with open(cs, newline="") as file:
                     reader = csv.reader(file)

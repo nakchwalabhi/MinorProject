@@ -181,18 +181,12 @@ def manually_fill():
 
             def create_csv():
                 df = pd.DataFrame(d)
-                csv_name = (
-                    "Attendance(Manually)/"
-                    + subb
-                    + "_"
-                    + Date
-                    + "_"
-                    + Hour
-                    + "-"
-                    + Minute
-                    + "-"
-                    + Second
-                    + ".csv"
+                manual_dir = "Attendance(Manually)"
+                if not os.path.exists(manual_dir):
+                    os.makedirs(manual_dir)
+                csv_name = os.path.join(
+                    manual_dir,
+                    subb + "_" + Date + "_" + Hour + "-" + Minute + "-" + Second + ".csv"
                 )
                 df.to_csv(csv_name)
                 O = "CSV created Successfully"
@@ -297,9 +291,9 @@ def manually_fill():
             # TODO remove check sheet
             def attf():
                 import subprocess
-
+                manual_dir = os.path.abspath("Attendance(Manually)")
                 subprocess.Popen(
-                    r'explorer /select,"C:/Users/patel/OneDrive/Documents/E/FBAS/Attendance(Manually)"'
+                    f'explorer /select,"{manual_dir}"'
                 )
 
             attf = tk.Button(

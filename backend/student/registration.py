@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app
+import os
 import time
 import base64
 import numpy as np
@@ -6,14 +7,10 @@ from PIL import Image
 import io
 from deepface import DeepFace
 from mtcnn import MTCNN
-from pymongo import MongoClient
 from bson.objectid import ObjectId
 import logging
 
 student_registration_bp = Blueprint("student_registration", __name__)
-client = MongoClient("MONGODB_URI")
-db = client["DATABASE_NAME"]
-students_collection = db["students"]
 detector = MTCNN()
 logger = logging.getLogger(__name__)
 

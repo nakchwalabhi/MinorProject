@@ -12,10 +12,15 @@ def subjectchoose(text_to_speech):
         if Subject=="":
             t='Please enter the subject name.'
             text_to_speech(t)
+            return
     
         filenames = glob(
             f"Attendance\\{Subject}\\{Subject}*.csv"
         )
+        if not filenames:
+            t = f"No attendance sheets found for {Subject}."
+            text_to_speech(t)
+            return
         df = [pd.read_csv(f) for f in filenames]
         newdf = df[0]
         for i in range(1, len(df)):
