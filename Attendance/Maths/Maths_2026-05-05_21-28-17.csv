@@ -1,0 +1,7 @@
+Enrollment,Name,2026-05-05
+12345,"<StringArray>
+['asdfg', 'asdfgh']
+Length: 2, dtype: str",1
+123456,"<StringArray>
+['asdfghj']
+Length: 1, dtype: str",1
