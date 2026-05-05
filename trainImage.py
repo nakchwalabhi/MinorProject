@@ -15,7 +15,7 @@ def TrainImage(haarcasecade_path, trainimage_path, trainimagelabel_path, message
     recognizer.train(faces, np.array(Id))
     recognizer.save(trainimagelabel_path)
     res = "Image Trained successfully"  # +",".join(str(f) for f in Id)
-    message.configure(text=res)
+    message.after(0, lambda: message.configure(text=res))
     text_to_speech(res)
 
 

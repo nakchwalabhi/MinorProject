@@ -38,6 +38,10 @@ trainimage_path = "TrainingImage"
 if not os.path.exists(trainimage_path):
     os.makedirs(trainimage_path)
 
+trainimagelabel_dir = os.path.dirname(trainimagelabel_path)
+if trainimagelabel_dir and not os.path.exists(trainimagelabel_dir):
+    os.makedirs(trainimagelabel_dir)
+
 studentdetail_path = (
     "./StudentDetails/studentdetails.csv"
 )
