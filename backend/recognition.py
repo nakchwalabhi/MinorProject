@@ -43,7 +43,7 @@ def auto_register_user(user_id, name, wait_time=5):
     Automatically captures a face from webcam and registers user.
     wait_time: Seconds to wait before registering (to stabilize face).
     """
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
     print(f"Looking for {name}'s face. Please look at the camera for {wait_time} seconds...")
@@ -98,7 +98,7 @@ def live_recognition():
 
     threshold = 0.7  # Cosine similarity threshold
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
     print("Starting live recognition. Press 'q' to quit.")

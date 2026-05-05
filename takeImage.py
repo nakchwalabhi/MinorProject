@@ -20,7 +20,7 @@ def TakeImage(l1, l2, haarcasecade_path, trainimage_path, message, err_screen,te
         text_to_speech(t)
     else:
         try:
-            cam = cv2.VideoCapture(0)
+            cam = cv2.VideoCapture(1)
             detector = cv2.CascadeClassifier(haarcasecade_path)
             Enrollment = l1
             Name = l2

@@ -49,7 +49,7 @@ def subjectChoose(text_to_speech):
                     text_to_speech(e)
                 facecasCade = cv2.CascadeClassifier(haarcasecade_path)
                 df = pd.read_csv(studentdetail_path)
-                cam = cv2.VideoCapture(0)
+                cam = cv2.VideoCapture(1)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 col_names = ["Enrollment", "Name"]
                 attendance = pd.DataFrame(columns=col_names)

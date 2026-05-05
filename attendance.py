@@ -260,7 +260,7 @@ def TakeImageUI():
         txt1.delete(0, "end")
         txt2.delete(0, "end")
 
-        cam = cv2.VideoCapture(0)
+        cam = cv2.VideoCapture(1)
         detector = cv2.CascadeClassifier(haarcasecade_path)
         sample_num = [0]
 
