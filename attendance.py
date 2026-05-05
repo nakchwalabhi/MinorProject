@@ -265,7 +265,7 @@ def TakeImageUI():
         sample_num = [0]
 
         cam_win = tk.Toplevel(ImageUI)
-        cam_win.title("Take Image  (close window to stop)")
+        cam_win.title("Take Image (close window to stop)")
         cam_win.resizable(False, False)
         cam_label = tk.Label(cam_win)
         cam_label.pack()
