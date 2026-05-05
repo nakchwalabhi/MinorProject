@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 import os, cv2
 import threading
+import queue
 import shutil
 import csv
 import numpy as np
@@ -328,12 +329,22 @@ def TakeImageUI():
     takeImg.place(x=130, y=350)
 
     def train_image():
+        q = queue.Queue()
+
+        def poll_queue():
+            try:
+                res = q.get_nowait()
+                message.configure(text=res)
+            except queue.Empty:
+                window.after(100, poll_queue)
+
         t = threading.Thread(
             target=trainImage.TrainImage,
-            args=(haarcasecade_path, trainimage_path, trainimagelabel_path, message, text_to_speech),
+            args=(haarcasecade_path, trainimage_path, trainimagelabel_path, q, text_to_speech),
             daemon=True,
         )
         t.start()
+        window.after(100, poll_queue)
 
     # train Image function call
     trainImg = tk.Button(

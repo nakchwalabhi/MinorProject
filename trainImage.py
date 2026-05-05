@@ -8,14 +8,14 @@ from PIL import ImageTk, Image
 
 
 # Train Image
-def TrainImage(haarcasecade_path, trainimage_path, trainimagelabel_path, message,text_to_speech):
+def TrainImage(haarcasecade_path, trainimage_path, trainimagelabel_path, result_queue, text_to_speech):
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     detector = cv2.CascadeClassifier(haarcasecade_path)
     faces, Id = getImagesAndLables(trainimage_path)
     recognizer.train(faces, np.array(Id))
     recognizer.save(trainimagelabel_path)
     res = "Image Trained successfully"  # +",".join(str(f) for f in Id)
-    message.after(0, lambda: message.configure(text=res))
+    result_queue.put(res)
     text_to_speech(res)
 
 
