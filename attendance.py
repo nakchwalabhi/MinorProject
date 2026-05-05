@@ -295,9 +295,9 @@ def TakeImageUI():
                         gray[y : y + h, x : x + w],
                     )
                 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                img_tk = ImageTk.PhotoImage(Image.fromarray(img_rgb))
+                img_tk = ImageTk.PhotoImage(Image.fromarray(img_rgb), master=cam_label)
                 cam_label.configure(image=img_tk)
-                cam_label.image = img_tk  # prevent garbage collection
+                cam_label.image = img_tk  # keep reference to prevent garbage collection
 
             if sample_num[0] < 50 and cam_win.winfo_exists():
                 cam_win.after(30, capture_frame)
